@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuentra tu talla — The North Face</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;background:#f4f4f2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;}
+
+.shell{background:#fff;border-radius:16px;width:100%;max-width:500px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.09);}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid #ebebeb;}
+.header-brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.header-brand svg{width:26px;height:26px;}
+
+/* CATEGORY TABS */
+.cat-tabs{display:flex;border-bottom:1px solid #ebebeb;}
+.cat-tab{flex:1;padding:14px 8px;text-align:center;font-size:13px;font-weight:500;cursor:pointer;color:#aaa;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.02em;}
+.cat-tab.active{color:#111;border-bottom-color:#111;}
+
+.progress-bar{height:3px;background:#ebebeb;}
+.progress-fill{height:3px;background:#111;transition:width .4s ease;}
+
+/* SECTIONS */
+.section{display:none;}
+.section.active{display:block;}
+
+/* STEPS */
+.step{display:none;padding:32px 28px 24px;animation:fadeUp .25s ease;}
+.step.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.step-title{font-size:21px;font-weight:400;text-align:center;margin-bottom:8px;color:#111;}
+.step-sub{font-size:13px;color:#aaa;text-align:center;margin-bottom:28px;line-height:1.5;}
+
+/* INPUTS */
+.field-block{margin-bottom:20px;}
+.field-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}
+.field-name{font-size:13px;color:#888;}
+.unit-toggle{display:flex;gap:2px;font-size:12px;font-weight:700;letter-spacing:.06em;}
+.unit-opt{cursor:pointer;color:#bbb;padding:2px 5px;border-radius:3px;}
+.unit-opt.active{color:#111;}
+.unit-sep{color:#ddd;}
+.field-row{display:flex;align-items:center;border-bottom:1.5px solid #111;padding-bottom:8px;}
+.num-input{font-size:28px;font-weight:300;color:#111;border:none;outline:none;background:transparent;width:140px;font-family:inherit;-moz-appearance:textfield;}
+.num-input::-webkit-outer-spin-button,.num-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.field-unit-label{font-size:14px;color:#aaa;margin-left:8px;}
+
+/* SLIDER */
+.slider-block{margin-top:4px;}
+.slider-label{font-size:13px;color:#888;margin-bottom:14px;}
+.slider-tooltip{display:inline-block;background:#222;color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;margin-bottom:8px;}
+.slider-track{position:relative;}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:3px;background:linear-gradient(to right,#111 var(--pct,50%),#ddd var(--pct,50%));border-radius:2px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:#111;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 0 0 1.5px #111;}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;background:#111;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 0 0 1.5px #111;}
+.slider-ends{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:#aaa;letter-spacing:.05em;text-transform:uppercase;}
+
+/* BODY OPTIONS */
+.body-options{display:flex;gap:10px;justify-content:center;}
+.body-opt{flex:1;cursor:pointer;border:2px solid transparent;border-radius:10px;padding:14px 6px 10px;text-align:center;transition:all .18s;background:#fafafa;}
+.body-opt:hover{background:#f0f0f0;}
+.body-opt.selected{border-color:#111;background:#fff;}
+.body-opt svg{display:block;margin:0 auto 8px;width:56px;height:74px;}
+.body-opt-label{font-size:12px;color:#888;}
+.body-opt.selected .body-opt-label{color:#111;font-weight:500;}
+
+/* METHOD OPTS */
+.method-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.method-opt{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid #e8e8e8;border-radius:10px;cursor:pointer;transition:all .18s;background:#fafafa;}
+.method-opt:hover{border-color:#bbb;background:#f5f5f5;}
+.method-opt.selected{border-color:#111;background:#fff;}
+.method-icon{width:38px;height:38px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .18s;}
+.method-opt.selected .method-icon{background:#111;}
+.method-icon svg{width:20px;height:20px;stroke:currentColor;transition:stroke .18s;}
+.method-opt.selected .method-icon svg{stroke:#fff;}
+.method-name{font-size:14px;font-weight:500;color:#111;margin-bottom:2px;}
+.method-desc{font-size:12px;color:#aaa;}
+
+/* INPUT PANELS (shoe) */
+.input-panel{display:none;}
+.input-panel.active{display:block;}
+
+/* WIDTH OPTS */
+.width-opts{display:flex;gap:8px;margin-bottom:16px;}
+.width-opt{flex:1;padding:11px 6px;border:1.5px solid #e8e8e8;border-radius:8px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa;}
+.width-opt:hover{border-color:#bbb;}
+.width-opt.selected{border-color:#111;background:#fff;}
+.width-opt-name{font-size:13px;font-weight:500;color:#111;margin-bottom:2px;}
+.width-opt-desc{font-size:11px;color:#aaa;}
+
+/* HINT BOX */
+.hint-box{background:#f7f7f7;border-radius:10px;padding:13px 15px;margin-bottom:18px;display:flex;gap:10px;align-items:flex-start;}
+.hint-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.hint-text{font-size:12px;color:#888;line-height:1.6;}
+
+/* FOOT ILLUSTRATION */
+.foot-illustration{display:flex;justify-content:center;margin-bottom:16px;}
+
+/* RESULT */
+.result-hero{text-align:center;padding:10px 0 20px;}
+.result-eyebrow{font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;}
+.result-badge{display:inline-flex;align-items:center;justify-content:center;min-width:72px;height:72px;padding:0 18px;border-radius:50px;background:#111;color:#fff;font-size:24px;font-weight:400;letter-spacing:.02em;margin-bottom:14px;}
+.result-title{font-size:19px;font-weight:400;color:#111;margin-bottom:6px;}
+.result-sub{font-size:13px;color:#888;line-height:1.5;margin-bottom:20px;}
+
+.breakdown-card{background:#f7f7f7;border-radius:10px;padding:14px 16px;margin-bottom:16px;}
+.breakdown-title{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#aaa;margin-bottom:10px;}
+.breakdown-row{display:flex;justify-content:space-between;font-size:13px;color:#666;padding:4px 0;border-bottom:1px solid #eee;}
+.breakdown-row:last-child{border-bottom:none;}
+.breakdown-val{font-weight:500;color:#111;}
+
+.alt-label{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-bottom:8px;}
+.alt-btns{display:flex;gap:8px;margin-bottom:18px;}
+.alt-btn{flex:1;padding:10px 6px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:#fff;font-family:inherit;transition:all .15s;color:#111;}
+.alt-btn:hover{border-color:#111;}
+.alt-btn.main-size{border-color:#111;background:#111;color:#fff;}
+
+/* CONVERSION TABLE */
+.conv-label{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.conv-table{background:#f7f7f7;border-radius:10px;overflow:hidden;margin-bottom:18px;}
+.conv-header{display:grid;grid-template-columns:repeat(5,1fr);background:#111;padding:10px 12px;}
+.conv-header span{font-size:11px;font-weight:700;letter-spacing:.06em;color:#fff;text-align:center;}
+.conv-row{display:grid;grid-template-columns:repeat(5,1fr);padding:9px 12px;border-bottom:1px solid #eee;}
+.conv-row:last-child{border-bottom:none;}
+.conv-row.hl{background:#fff;}
+.conv-row span{font-size:13px;color:#666;text-align:center;}
+.conv-row.hl span{color:#111;font-weight:600;}
+
+.width-advice{display:flex;align-items:center;gap:8px;background:#f0f7f0;border-radius:8px;padding:12px 14px;margin-bottom:14px;}
+.width-advice-text{font-size:13px;color:#2d6e2d;}
+
+/* FOOTER */
+.footer{padding:4px 0 0;}
+.btn-main{width:100%;padding:14px;background:#111;color:#fff;border:none;font-size:13px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border-radius:8px;font-family:inherit;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-main:hover{background:#333;}
+.btn-main:disabled{background:#ccc;cursor:not-allowed;}
+.btn-main.success{background:#2d7a2d;}
+.btn-main svg{width:14px;height:14px;flex-shrink:0;}
+.btn-back{background:none;border:none;font-size:13px;color:#aaa;cursor:pointer;display:block;text-align:center;margin-top:12px;font-family:inherit;width:100%;}
+.btn-back:hover{color:#111;}
+
+/* PRODUCT STRIP */
+.product-strip{border-top:1px solid #ebebeb;padding:14px 24px;display:flex;align-items:center;gap:12px;}
+.product-img-box{width:46px;height:46px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:8px;color:#bbb;text-align:center;line-height:1.4;flex-shrink:0;font-weight:600;}
+.product-info{flex:1;}
+.product-name{font-size:12px;font-weight:500;color:#111;line-height:1.3;margin-bottom:2px;}
+.product-price{font-size:12px;color:#888;}
+.selected-badge{background:#111;color:#fff;border-radius:6px;padding:5px 12px;font-size:13px;font-weight:500;min-width:44px;text-align:center;white-space:nowrap;}
+.selected-badge.empty{background:#f0f0f0;color:#bbb;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-brand">
+      <svg viewBox="0 0 100 100" fill="none"><rect width="100" height="100" fill="#000"/><path d="M15 72L50 28L85 72Z" fill="#fff"/></svg>
+      The North Face
+    </div>
+    <div style="font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;">Guía de talla</div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-tabs">
+    <div class="cat-tab active" onclick="switchCategory('ropa',this)">👕 Ropa</div>
+    <div class="cat-tab" onclick="switchCategory('calzado',this)">👟 Calzado</div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress" style="width:16%"></div></div>
+
+  <!-- ===================== ROPA ===================== -->
+  <div class="section active" id="section-ropa">
+
+    <!-- R-STEP 1: medidas + fit -->
+    <div class="step active" id="r-step-1">
+      <div class="step-title">Tus medidas</div>
+      <div class="step-sub">Ingresa tu altura y peso para comenzar</div>
+
+      <div class="field-block">
+        <div class="field-top">
+          <span class="field-name">Altura</span>
+          <div class="unit-toggle">
+            <span class="unit-opt active" onclick="setRUnit('height','cm',this)">CM</span>
+            <span class="unit-sep">|</span>
+            <span class="unit-opt" onclick="setRUnit('height','in',this)">IN</span>
+          </div>
+        </div>
+        <div class="field-row">
+          <input class="num-input" type="number" id="r-altura" placeholder="175" min="140" max="220" oninput="validateR1()">
+          <span class="field-unit-label" id="r-altura-unit">cm</span>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <div class="field-top">
+          <span class="field-name">Peso</span>
+          <div class="unit-toggle">
+            <span class="unit-opt active" onclick="setRUnit('weight','kg',this)">KG</span>
+            <span class="unit-sep">|</span>
+            <span class="unit-opt" onclick="setRUnit('weight','lb',this)">LB</span>
+          </div>
+        </div>
+        <div class="field-row">
+          <input class="num-input" type="number" id="r-peso" placeholder="75" min="40" max="200" oninput="validateR1()">
+          <span class="field-unit-label" id="r-peso-unit">kg</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-label">¿Cómo quieres que ajuste?</div>
+        <div style="text-align:center;margin-bottom:8px;"><span class="slider-tooltip" id="r-fit-label">NORMAL</span></div>
+        <div class="slider-track">
+          <input type="range" id="r-fit-slider" min="1" max="5" value="3" step="1" oninput="updateFit(this)">
+        </div>
+        <div class="slider-ends"><span>◀ AJUSTADO</span><span>HOLGADO ▶</span></div>
+      </div>
+
+      <div class="footer" style="padding:24px 0 0;">
+        <button class="btn-main" id="r-btn-1" onclick="rGoStep(2)" disabled>
+          CONTINUAR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- R-STEP 2: edad -->
+    <div class="step" id="r-step-2">
+      <div class="step-title">Edad</div>
+      <div class="step-sub">Nos ayuda a afinar la recomendación</div>
+      <div class="field-block">
+        <div class="field-top"><span class="field-name">Edad</span></div>
+        <div class="field-row">
+          <input class="num-input" type="number" id="r-edad" placeholder="30" min="15" max="99" oninput="validateR2()">
+          <span class="field-unit-label">años</span>
+        </div>
+      </div>
+      <div class="footer" style="padding:24px 0 0;">
+        <button class="btn-main" id="r-btn-2" onclick="rGoStep(3)" disabled>
+          CONTINUAR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="rGoStep(1)">← Volver</button>
+      </div>
+    </div>
+
+    <!-- R-STEP 3: pecho -->
+    <div class="step" id="r-step-3">
+      <div class="step-title">Pecho</div>
+      <div class="step-sub">¿Cómo describirías la forma de tu pecho?</div>
+      <div class="body-options" id="r-chest-opts">
+        <div class="body-opt" onclick="rSelectBody('chest','recto',this)">
+          <svg viewBox="0 0 56 74"><rect x="16" y="0" width="24" height="68" rx="4" fill="#e8e8e8"/>
+          <line x1="10" y1="10" x2="10" y2="42" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="46" y1="10" x2="46" y2="42" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">recto</div>
+        </div>
+        <div class="body-opt" onclick="rSelectBody('chest','medio',this)">
+          <svg viewBox="0 0 56 74"><rect x="14" y="0" width="28" height="68" rx="6" fill="#e8e8e8"/>
+          <path d="M6 10 Q2 26 6 44" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M50 10 Q54 26 50 44" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">medio</div>
+        </div>
+        <div class="body-opt" onclick="rSelectBody('chest','ancho',this)">
+          <svg viewBox="0 0 56 74"><rect x="10" y="0" width="36" height="68" rx="8" fill="#e8e8e8"/>
+          <path d="M2 8 Q-4 26 2 46" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M54 8 Q60 26 54 46" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">ancho</div>
+        </div>
+      </div>
+      <div class="footer" style="padding:24px 0 0;">
+        <button class="btn-main" id="r-btn-3" onclick="rGoStep(4)" disabled>
+          CONTINUAR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="rGoStep(2)">← Volver</button>
+      </div>
+    </div>
+
+    <!-- R-STEP 4: cintura -->
+    <div class="step" id="r-step-4">
+      <div class="step-title">Cintura</div>
+      <div class="step-sub">¿Cómo es tu zona abdominal de perfil?</div>
+      <div class="body-options" id="r-waist-opts">
+        <div class="body-opt" onclick="rSelectBody('waist','plana',this)">
+          <svg viewBox="0 0 56 74"><rect x="18" y="0" width="20" height="68" rx="4" fill="#e8e8e8"/>
+          <line x1="42" y1="24" x2="42" y2="48" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">plana</div>
+        </div>
+        <div class="body-opt" onclick="rSelectBody('waist','media',this)">
+          <svg viewBox="0 0 56 74"><rect x="16" y="0" width="24" height="68" rx="6" fill="#e8e8e8"/>
+          <path d="M44 20 Q48 36 44 52" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">media</div>
+        </div>
+        <div class="body-opt" onclick="rSelectBody('waist','curvada',this)">
+          <svg viewBox="0 0 56 74"><rect x="12" y="0" width="32" height="68" rx="8" fill="#e8e8e8"/>
+          <path d="M48 16 Q56 36 48 56" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">curvada</div>
+        </div>
+      </div>
+      <div class="footer" style="padding:24px 0 0;">
+        <button class="btn-main" id="r-btn-4" onclick="rGoStep(5)" disabled>
+          CONTINUAR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="rGoStep(3)">← Volver</button>
+      </div>
+    </div>
+
+    <!-- R-STEP 5: cadera -->
+    <div class="step" id="r-step-5">
+      <div class="step-title">Cadera</div>
+      <div class="step-sub">¿Cómo es tu zona de cadera?</div>
+      <div class="body-options" id="r-hip-opts">
+        <div class="body-opt" onclick="rSelectBody('hip','delgada',this)">
+          <svg viewBox="0 0 56 74">
+          <rect x="20" y="28" width="16" height="38" rx="4" fill="#c8c8c8"/>
+          <rect x="18" y="0" width="20" height="30" rx="4" fill="#e8e8e8"/>
+          <line x1="12" y1="26" x2="12" y2="54" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="44" y1="26" x2="44" y2="54" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">delgada</div>
+        </div>
+        <div class="body-opt" onclick="rSelectBody('hip','media',this)">
+          <svg viewBox="0 0 56 74">
+          <rect x="16" y="28" width="24" height="38" rx="6" fill="#c8c8c8"/>
+          <rect x="18" y="0" width="20" height="30" rx="4" fill="#e8e8e8"/>
+          <path d="M6 26 Q2 42 6 58" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M50 26 Q54 42 50 58" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">media</div>
+        </div>
+        <div class="body-opt" onclick="rSelectBody('hip','curvada',this)">
+          <svg viewBox="0 0 56 74">
+          <rect x="10" y="28" width="36" height="38" rx="8" fill="#c8c8c8"/>
+          <rect x="18" y="0" width="20" height="30" rx="4" fill="#e8e8e8"/>
+          <path d="M0 24 Q-6 42 0 60" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M56 24 Q62 42 56 60" fill="none" stroke="#5bc8d8" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <div class="body-opt-label">curvada</div>
+        </div>
+      </div>
+      <div class="footer" style="padding:24px 0 0;">
+        <button class="btn-main" id="r-btn-5" onclick="computeRopa()" disabled>
+          VER MI TALLA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="rGoStep(4)">← Volver</button>
+      </div>
+    </div>
+
+    <!-- R-STEP 6: resultado ropa -->
+    <div class="step" id="r-step-6">
+      <div class="result-hero">
+        <div class="result-eyebrow">Tu talla recomendada</div>
+        <div class="result-badge" id="r-result-badge">M</div>
+        <div class="result-title" id="r-result-title">Tu talla es M</div>
+        <div class="result-sub" id="r-result-sub">Basado en tus medidas</div>
+      </div>
+      <div style="padding:0 4px;">
+        <div class="breakdown-card">
+          <div class="breakdown-title">Estimación de medidas</div>
+          <div class="breakdown-row"><span>Pecho estimado</span><span class="breakdown-val" id="r-br-chest">—</span></div>
+          <div class="breakdown-row"><span>Cintura estimada</span><span class="breakdown-val" id="r-br-waist">—</span></div>
+          <div class="breakdown-row"><span>Cadera estimada</span><span class="breakdown-val" id="r-br-hip">—</span></div>
+          <div class="breakdown-row"><span>Ajuste</span><span class="breakdown-val" id="r-br-fit">Normal</span></div>
+        </div>
+        <div class="alt-label">También podrías ser</div>
+        <div class="alt-btns" id="r-alts"></div>
+      </div>
+      <div class="footer" style="padding:4px 0 0;">
+        <button class="btn-main" id="r-btn-apply" onclick="rApply()">
+          SELECCIONAR TALLA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="rGoStep(1)">Recalcular</button>
+      </div>
+    </div>
+
+    <!-- product strip ropa -->
+    <div class="product-strip">
+      <div class="product-img-box">TNF<br>VEST</div>
+      <div class="product-info">
+        <div class="product-name">1996 Retro Nuptse Vest Hombre</div>
+        <div class="product-price">$89.990 CLP</div>
+      </div>
+      <div class="selected-badge empty" id="r-selected-badge">—</div>
+    </div>
+  </div>
+
+  <!-- ===================== CALZADO ===================== -->
+  <div class="section" id="section-calzado">
+
+    <!-- C-STEP 1: método -->
+    <div class="step active" id="c-step-1">
+      <div class="step-title">¿Cómo prefieres medir?</div>
+      <div class="step-sub">Elige el método que te sea más fácil</div>
+      <div class="method-opts">
+        <div class="method-opt" onclick="cSelectMethod('cm',this)">
+          <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M8 7v5M13 7v5M18 7v5"/></svg></div>
+          <div><div class="method-name">Medir mi pie en cm</div><div class="method-desc">La forma más precisa. Solo necesitas una hoja y un lápiz.</div></div>
+        </div>
+        <div class="method-opt" onclick="cSelectMethod('us',this)">
+          <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18M3 12h18"/></svg></div>
+          <div><div class="method-name">Sé mi talla US</div><div class="method-desc">Ingresa tu número americano y lo convertimos a Chile.</div></div>
+        </div>
+        <div class="method-opt" onclick="cSelectMethod('eur',this)">
+          <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6a7 7 0 1 0 0 12M4 9h11M4 15h11"/></svg></div>
+          <div><div class="method-name">Sé mi talla EUR</div><div class="method-desc">Ingresa tu número europeo y lo convertimos a Chile.</div></div>
+        </div>
+        <div class="method-opt" onclick="cSelectMethod('uk',this)">
+          <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18v12H3zM8 6v12M16 6v12"/></svg></div>
+          <div><div class="method-name">Sé mi talla UK</div><div class="method-desc">Ingresa tu número inglés y lo convertimos a Chile.</div></div>
+        </div>
+      </div>
+      <div class="footer">
+        <button class="btn-main" id="c-btn-1" onclick="cGoStep(2)" disabled>
+          CONTINUAR <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- C-STEP 2: medida -->
+    <div class="step" id="c-step-2">
+      <div class="step-title" id="c-s2-title">Largo de tu pie</div>
+      <div class="step-sub" id="c-s2-sub">Mide desde el talón hasta el dedo más largo</div>
+
+      <!-- CM -->
+      <div class="input-panel active" id="c-panel-cm">
+        <div class="foot-illustration">
+          <svg viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg" width="190" height="105">
+            <rect x="10" y="28" width="140" height="58" rx="30" fill="#ebebeb"/>
+            <ellipse cx="155" cy="53" rx="16" ry="12" fill="#ebebeb"/>
+            <ellipse cx="168" cy="46" rx="10" ry="8" fill="#ebebeb"/>
+            <ellipse cx="176" cy="40" rx="8" ry="6" fill="#ebebeb"/>
+            <ellipse cx="181" cy="36" rx="6" ry="5" fill="#ebebeb"/>
+            <line x1="10" y1="98" x2="150" y2="98" stroke="#5bc8d8" stroke-width="2" stroke-dasharray="4 3"/>
+            <line x1="10" y1="94" x2="10" y2="102" stroke="#5bc8d8" stroke-width="2"/>
+            <line x1="150" y1="94" x2="150" y2="102" stroke="#5bc8d8" stroke-width="2"/>
+            <text x="80" y="94" text-anchor="middle" font-size="10" fill="#5bc8d8" font-family="Helvetica Neue,sans-serif">largo del pie</text>
+          </svg>
+        </div>
+        <div class="hint-box">
+          <div class="hint-icon">📋</div>
+          <div class="hint-text">Pon tu pie sobre una hoja de papel, marca el talón y la punta del dedo más largo. Mide la distancia entre ambas marcas.</div>
+        </div>
+        <div class="field-block">
+          <div class="field-top">
+            <span class="field-name">Largo del pie</span>
+            <div class="unit-toggle">
+              <span class="unit-opt active" onclick="setCmUnit('cm',this)">CM</span>
+              <span class="unit-sep">|</span>
+              <span class="unit-opt" onclick="setCmUnit('mm',this)">MM</span>
+            </div>
+          </div>
+          <div class="field-row">
+            <input class="num-input" type="number" id="c-input-cm" placeholder="27" min="20" max="34" step="0.1" oninput="validateC2()">
+            <span class="field-unit-label" id="c-cm-unit">cm</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;">Ancho del pie</div>
+          <div class="width-opts">
+            <div class="width-opt" onclick="cSelectWidth('angosto',this)"><div class="width-opt-name">Angosto</div><div class="width-opt-desc">Pie estrecho</div></div>
+            <div class="width-opt selected" onclick="cSelectWidth('normal',this)"><div class="width-opt-name">Normal</div><div class="width-opt-desc">Promedio</div></div>
+            <div class="width-opt" onclick="cSelectWidth('ancho',this)"><div class="width-opt-name">Ancho</div><div class="width-opt-desc">Pie amplio</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- US -->
+      <div class="input-panel" id="c-panel-us">
+        <div class="field-block">
+          <div class="field-top"><span class="field-name">Tu talla US</span></div>
+          <div class="field-row">
+            <input class="num-input" type="number" id="c-input-us" placeholder="9" min="6" max="14" step="0.5" oninput="validateC2()">
+            <span class="field-unit-label">US</span>
+          </div>
+        </div>
+        <div class="hint-box"><div class="hint-icon">💡</div><div class="hint-text">Si tu talla cae entre dos números, te mostraremos ambas opciones.</div></div>
+      </div>
+
+      <!-- EUR -->
+      <div class="input-panel" id="c-panel-eur">
+        <div class="field-block">
+          <div class="field-top"><span class="field-name">Tu talla EUR</span></div>
+          <div class="field-row">
+            <input class="num-input" type="number" id="c-input-eur" placeholder="42" min="38" max="48" step="0.5" oninput="validateC2()">
+            <span class="field-unit-label">EUR</span>
+          </div>
+        </div>
+        <div class="hint-box"><div class="hint-icon">💡</div><div class="hint-text">Puedes encontrar tu talla EUR en la suela o etiqueta interna de tu calzado.</div></div>
+      </div>
+
+      <!-- UK -->
+      <div class="input-panel" id="c-panel-uk">
+        <div class="field-block">
+          <div class="field-top"><span class="field-name">Tu talla UK</span></div>
+          <div class="field-row">
+            <input class="num-input" type="number" id="c-input-uk" placeholder="8" min="5" max="13" step="0.5" oninput="validateC2()">
+            <span class="field-unit-label">UK</span>
+          </div>
+        </div>
+        <div class="hint-box"><div class="hint-icon">💡</div><div class="hint-text">La talla UK suele estar marcada como UK o GB en la etiqueta.</div></div>
+      </div>
+
+      <div class="footer">
+        <button class="btn-main" id="c-btn-2" onclick="computeCalzado()" disabled>
+          VER MI TALLA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="cGoStep(1)">← Cambiar método</button>
+      </div>
+    </div>
+
+    <!-- C-STEP 3: resultado calzado -->
+    <div class="step" id="c-step-3">
+      <div class="result-hero">
+        <div class="result-eyebrow">Tu talla Chile</div>
+        <div class="result-badge" id="c-result-badge">41</div>
+        <div class="result-title" id="c-result-title">Talla Chile 41</div>
+        <div class="result-sub" id="c-result-sub">Basado en tu medida de pie</div>
+      </div>
+      <div id="c-width-advice" style="display:none;" class="width-advice">
+        <span>👟</span><span id="c-width-text"></span>
+      </div>
+      <div style="padding:0 4px;">
+        <div class="conv-label">Tabla de conversión completa</div>
+        <div class="conv-table">
+          <div class="conv-header"><span>Chile</span><span>US</span><span>EUR</span><span>UK</span><span>CM</span></div>
+          <div id="c-conv-rows"></div>
+        </div>
+      </div>
+      <div class="footer">
+        <button class="btn-main" id="c-btn-apply" onclick="cApply()">
+          SELECCIONAR TALLA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-back" onclick="cGoStep(1)">Recalcular</button>
+      </div>
+    </div>
+
+    <!-- product strip calzado -->
+    <div class="product-strip">
+      <div class="product-img-box">TNF<br>SHOE</div>
+      <div class="product-info">
+        <div class="product-name">Calzado Hombre — The North Face</div>
+        <div class="product-price">Selecciona tu talla abajo</div>
+      </div>
+      <div class="selected-badge empty" id="c-selected-badge">—</div>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+/* ========== SHARED ========== */
+var activeCategory = 'ropa';
+var PROGRESS = {ropa:{1:16,2:32,3:48,4:64,5:80,6:100}, calzado:{1:33,2:66,3:100}};
+
+function switchCategory(cat, el) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('section-ropa').classList.toggle('active', cat==='ropa');
+  document.getElementById('section-calzado').classList.toggle('active', cat==='calzado');
+  var step = cat==='ropa' ? rCurrentStep : cCurrentStep;
+  document.getElementById('progress').style.width = PROGRESS[cat][step] + '%';
+}
+
+/* ========== ROPA ========== */
+var rCurrentStep = 1;
+var rSel = {chest:null, waist:null, hip:null};
+var rHeightUnit = 'cm', rWeightUnit = 'kg', rFitVal = 3;
+var rRecommended = null;
+var FIT_LABELS = {1:'MUY AJUSTADO',2:'AJUSTADO',3:'NORMAL',4:'HOLGADO',5:'MUY HOLGADO'};
+var SIZE_ORDER = ['XS','S','M','L','XL','XXL','3XL'];
+var TOP_TABLE = [
+  {size:'XS',chest:[84,86],waist:[66,71],hip:[81,86]},
+  {size:'S',chest:[91,96],waist:[74,79],hip:[89,94]},
+  {size:'M',chest:[99,104],waist:[81,86],hip:[97,102]},
+  {size:'L',chest:[107,112],waist:[89,94],hip:[104,109]},
+  {size:'XL',chest:[114,122],waist:[96,104],hip:[112,117]},
+  {size:'XXL',chest:[124,135],waist:[107,114],hip:[119,124]},
+  {size:'3XL',chest:[137,147],waist:[117,124],hip:[127,132]}
+];
+var CHEST_MULT={recto:0,medio:4,ancho:9};
+var WAIST_MULT={plana:-2,media:3,curvada:8};
+var HIP_MULT={delgada:-3,media:3,curvada:9};
+
+function updateFit(el) {
+  rFitVal = parseInt(el.value);
+  var pct = ((rFitVal-1)/4*100).toFixed(1)+'%';
+  el.style.setProperty('--pct',pct);
+  document.getElementById('r-fit-label').textContent = FIT_LABELS[rFitVal];
+}
+function setRUnit(type, unit, el) {
+  if(type==='height'){rHeightUnit=unit; document.getElementById('r-altura-unit').textContent=unit;}
+  else{rWeightUnit=unit; document.getElementById('r-peso-unit').textContent=unit;}
+  var grp = el.closest('.field-block').querySelectorAll('.unit-opt');
+  grp.forEach(function(o){o.classList.remove('active');}); el.classList.add('active');
+}
+function validateR1(){
+  var a=parseFloat(document.getElementById('r-altura').value);
+  var p=parseFloat(document.getElementById('r-peso').value);
+  document.getElementById('r-btn-1').disabled=!(a>0&&p>0);
+}
+function validateR2(){
+  var e=parseFloat(document.getElementById('r-edad').value);
+  document.getElementById('r-btn-2').disabled=!(e>=15&&e<=99);
+}
+function rSelectBody(type,val,el){
+  el.parentNode.querySelectorAll('.body-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected'); rSel[type]=val;
+  var map={chest:'r-btn-3',waist:'r-btn-4',hip:'r-btn-5'};
+  document.getElementById(map[type]).disabled=false;
+}
+function rGoStep(n){
+  document.getElementById('r-step-'+rCurrentStep).classList.remove('active');
+  rCurrentStep=n;
+  document.getElementById('r-step-'+n).classList.add('active');
+  document.getElementById('progress').style.width=PROGRESS.ropa[n]+'%';
+}
+function estimateMeasures(){
+  var h=parseFloat(document.getElementById('r-altura').value);
+  var w=parseFloat(document.getElementById('r-peso').value);
+  if(rHeightUnit==='in') h=h*2.54;
+  if(rWeightUnit==='lb') w=w*0.453592;
+  var bmi=w/((h/100)*(h/100));
+  var chest=Math.round(h*0.535+(bmi-22)*1.1+CHEST_MULT[rSel.chest]);
+  var waistR={plana:0.74,media:0.80,curvada:0.87};
+  var waist=Math.round(chest*waistR[rSel.waist]+(bmi-22)*0.8+WAIST_MULT[rSel.waist]);
+  var hipR={delgada:0.95,media:1.01,curvada:1.08};
+  var hip=Math.round(chest*hipR[rSel.hip]+HIP_MULT[rSel.hip]);
+  return {chest:chest,waist:waist,hip:hip};
+}
+function findBestSize(m){
+  return TOP_TABLE.map(function(row){
+    var cM=(row.chest[0]+row.chest[1])/2;
+    var wM=(row.waist[0]+row.waist[1])/2;
+    var hM=(row.hip[0]+row.hip[1])/2;
+    return {size:row.size,score:-Math.abs(m.chest-cM)-Math.abs(m.waist-wM)*0.8-Math.abs(m.hip-hM)*0.7};
+  }).sort(function(a,b){return b.score-a.score;});
+}
+function computeRopa(){
+  var m=estimateMeasures();
+  var scores=findBestSize(m);
+  var baseIdx=SIZE_ORDER.indexOf(scores[0].size);
+  var adjIdx=Math.max(0,Math.min(SIZE_ORDER.length-1,baseIdx+(rFitVal-3)));
+  rRecommended=SIZE_ORDER[adjIdx];
+  document.getElementById('r-result-badge').textContent=rRecommended;
+  document.getElementById('r-result-title').textContent='Tu talla es '+rRecommended;
+  var fn=FIT_LABELS[rFitVal];
+  document.getElementById('r-result-sub').textContent='Ajuste '+fn.charAt(0)+fn.slice(1).toLowerCase()+' — basado en tus medidas';
+  document.getElementById('r-br-chest').textContent=m.chest+' cm';
+  document.getElementById('r-br-waist').textContent=m.waist+' cm';
+  document.getElementById('r-br-hip').textContent=m.hip+' cm';
+  document.getElementById('r-br-fit').textContent=fn.charAt(0)+fn.slice(1).toLowerCase();
+  var alts=[];
+  if(adjIdx>0) alts.push(SIZE_ORDER[adjIdx-1]);
+  alts.push(rRecommended);
+  if(adjIdx<SIZE_ORDER.length-1) alts.push(SIZE_ORDER[adjIdx+1]);
+  document.getElementById('r-alts').innerHTML=alts.map(function(s){
+    return '<button class="alt-btn'+(s===rRecommended?' main-size':'')+'" onclick="rSelectAlt(\''+s+'\')">'+s+'</button>';
+  }).join('');
+  document.getElementById('r-selected-badge').textContent=rRecommended;
+  document.getElementById('r-selected-badge').classList.remove('empty');
+  rGoStep(6);
+}
+function rSelectAlt(s){
+  rRecommended=s;
+  document.getElementById('r-result-badge').textContent=s;
+  document.getElementById('r-result-title').textContent='Tu talla seleccionada es '+s;
+  document.querySelectorAll('#r-alts .alt-btn').forEach(function(b){b.classList.toggle('main-size',b.textContent===s);});
+  document.getElementById('r-selected-badge').textContent=s;
+}
+function rApply(){
+  var btn=document.getElementById('r-btn-apply');
+  btn.innerHTML='✓ TALLA '+rRecommended+' SELECCIONADA';
+  btn.classList.add('success'); btn.disabled=true;
+}
+
+/* ========== CALZADO ========== */
+var cCurrentStep=1;
+var cMethod=null, cWidth='normal', cCmUnit='cm', cRecommended=null;
+var SHOE_TABLE=[
+  {chile:'38',us:7,eur:39,uk:6,cm:25.0},
+  {chile:'39',us:7.5,eur:40,uk:6.5,cm:25.5},
+  {chile:'39.5',us:8,eur:40.5,uk:7,cm:26.0},
+  {chile:'40',us:8.5,eur:41,uk:7.5,cm:26.5},
+  {chile:'41',us:9,eur:42,uk:8,cm:27.0},
+  {chile:'41.5',us:9.5,eur:42.5,uk:8.5,cm:27.5},
+  {chile:'42',us:10,eur:43,uk:9,cm:28.0},
+  {chile:'43',us:10.5,eur:44,uk:9.5,cm:28.5},
+  {chile:'43.5',us:11,eur:44.5,uk:10,cm:29.0},
+  {chile:'44',us:11.5,eur:45,uk:10.5,cm:29.5},
+  {chile:'45',us:12,eur:46,uk:11,cm:30.0},
+  {chile:'45.5',us:12.5,eur:46.5,uk:11.5,cm:30.5},
+  {chile:'46',us:13,eur:47,uk:12,cm:31.0}
+];
+var C_METHOD_LABELS={
+  cm:{title:'Largo de tu pie',sub:'Ingresa la medida en centímetros'},
+  us:{title:'Tu talla US',sub:'Ingresa tu número americano'},
+  eur:{title:'Tu talla EUR',sub:'Ingresa tu número europeo'},
+  uk:{title:'Tu talla UK',sub:'Ingresa tu número inglés'}
+};
+function cSelectMethod(m,el){
+  cMethod=m;
+  document.querySelectorAll('#c-step-1 .method-opt').forEach(function(o){
+    o.classList.remove('selected');
+    o.querySelector('.method-icon').style.background='#f0f0f0';
+    o.querySelector('.method-icon svg').style.stroke='currentColor';
+  });
+  el.classList.add('selected');
+  el.querySelector('.method-icon').style.background='#111';
+  el.querySelector('.method-icon svg').style.stroke='#fff';
+  document.getElementById('c-btn-1').disabled=false;
+}
+function cGoStep(n){
+  document.getElementById('c-step-'+cCurrentStep).classList.remove('active');
+  cCurrentStep=n;
+  document.getElementById('c-step-'+n).classList.add('active');
+  document.getElementById('progress').style.width=PROGRESS.calzado[n]+'%';
+  if(n===2&&cMethod){
+    var lbl=C_METHOD_LABELS[cMethod];
+    document.getElementById('c-s2-title').textContent=lbl.title;
+    document.getElementById('c-s2-sub').textContent=lbl.sub;
+    document.querySelectorAll('#c-step-2 .input-panel').forEach(function(p){p.classList.remove('active');});
+    document.getElementById('c-panel-'+cMethod).classList.add('active');
+    document.getElementById('c-btn-2').disabled=true;
+  }
+}
+function setCmUnit(unit,el){
+  cCmUnit=unit;
+  document.querySelectorAll('#c-panel-cm .unit-opt').forEach(function(o){o.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('c-cm-unit').textContent=unit;
+  var inp=document.getElementById('c-input-cm');
+  inp.placeholder=unit==='cm'?'27':'270';
+  inp.step=unit==='cm'?'0.1':'1';
+  inp.min=unit==='cm'?'20':'200';
+  inp.max=unit==='cm'?'34':'340';
+  validateC2();
+}
+function cSelectWidth(w,el){
+  cWidth=w;
+  document.querySelectorAll('.width-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+}
+function validateC2(){
+  var id=cMethod==='cm'?'c-input-cm':'c-input-'+cMethod;
+  var v=parseFloat(document.getElementById(id).value);
+  document.getElementById('c-btn-2').disabled=!v||v<=0;
+}
+function cFindByField(field,val){
+  var best=null,bestDiff=999,lo=null,hi=null;
+  SHOE_TABLE.forEach(function(row){
+    var d=Math.abs(row[field]-val);
+    if(d<bestDiff){bestDiff=d;best=row;}
+    if(row[field]<=val) lo=row;
+    if(!hi&&row[field]>=val) hi=row;
+  });
+  if(lo&&hi&&lo!==hi&&bestDiff>0.1) return [lo,hi];
+  return [best];
+}
+function cNextSize(chile){
+  for(var i=0;i<SHOE_TABLE.length-1;i++){if(SHOE_TABLE[i].chile===chile) return SHOE_TABLE[i+1].chile;}
+  return null;
+}
+function computeCalzado(){
+  var val, matches;
+  if(cMethod==='cm'){
+    val=parseFloat(document.getElementById('c-input-cm').value);
+    if(cCmUnit==='mm') val=val/10;
+    matches=cFindByField('cm',val+0.5);
+  } else {
+    val=parseFloat(document.getElementById('c-input-'+cMethod).value);
+    matches=cFindByField(cMethod,val);
+  }
+  if(!matches||!matches[0]){alert('No encontramos talla para esa medida.');return;}
+  cRecommended=matches[0].chile;
+  var isBetween=matches.length>1;
+  if(isBetween){
+    document.getElementById('c-result-badge').textContent=matches[0].chile+'/'+matches[1].chile;
+    document.getElementById('c-result-title').textContent='Entre talla '+matches[0].chile+' y '+matches[1].chile;
+    document.getElementById('c-result-sub').textContent='Recomendamos la '+matches[1].chile+' para mayor comodidad.';
+    cRecommended=matches[1].chile;
+  } else {
+    document.getElementById('c-result-badge').textContent=cRecommended;
+    document.getElementById('c-result-title').textContent='Tu talla Chile es '+cRecommended;
+    document.getElementById('c-result-sub').textContent='Tus medidas coinciden con esta talla.';
+  }
+  var wAdv=document.getElementById('c-width-advice');
+  if(cMethod==='cm'&&cWidth==='ancho'){
+    wAdv.style.display='flex';
+    document.getElementById('c-width-text').textContent='Tienes pie ancho: considera subir media talla para mayor comodidad.';
+    var next=cNextSize(cRecommended);
+    if(next) cRecommended=next;
+  } else if(cMethod==='cm'&&cWidth==='angosto'){
+    wAdv.style.display='flex';
+    document.getElementById('c-width-text').textContent='Tienes pie angosto: la talla recomendada debería ajustar bien.';
+  } else {
+    wAdv.style.display='none';
+  }
+  var hlChiles=matches.map(function(r){return r.chile;});
+  document.getElementById('c-conv-rows').innerHTML=SHOE_TABLE.map(function(row){
+    var hl=hlChiles.indexOf(row.chile)>-1;
+    return '<div class="conv-row'+(hl?' hl':'')+'"><span>'+row.chile+'</span><span>'+row.us+'</span><span>'+row.eur+'</span><span>'+row.uk+'</span><span>'+row.cm+'</span></div>';
+  }).join('');
+  document.getElementById('c-selected-badge').textContent=cRecommended;
+  document.getElementById('c-selected-badge').classList.remove('empty');
+  cGoStep(3);
+}
+function cApply(){
+  var btn=document.getElementById('c-btn-apply');
+  btn.innerHTML='✓ TALLA '+cRecommended+' SELECCIONADA';
+  btn.classList.add('success'); btn.disabled=true;
+}
+
+/* init slider */
+document.getElementById('r-fit-slider').style.setProperty('--pct','50%');
+</script>
+</body>
+</html>
