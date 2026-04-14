@@ -1,0 +1,681 @@
+<!-- ============================================================
+     DC SHOES — ENCUENTRA TU TALLA
+     Bloque HTML para PageBuilder de Adobe Commerce / Magento
+     Pegar en: Content > Blocks > Agregar bloque > HTML Code
+     ============================================================ -->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
+/* === RESET NAMESPACE csz- === */
+.csz-trigger,.csz-overlay,.csz-modal-wrap,.csz-shell *{box-sizing:border-box;}
+
+/* TRIGGER */
+.csz-trigger{
+  display:inline-block;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:#333;text-decoration:underline;cursor:pointer;background:none;border:none;
+  padding:0;margin:6px 0 14px;
+}
+.csz-trigger:hover{color:#000;}
+
+/* OVERLAY */
+.csz-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.csz-overlay.csz-open{opacity:1;pointer-events:all;}
+
+/* MODAL */
+.csz-modal{
+  background:#fff;width:95%;max-width:560px;max-height:92vh;
+  overflow-y:auto;position:relative;
+  transform:translateY(18px);transition:transform .22s;
+}
+.csz-overlay.csz-open .csz-modal{transform:translateY(0);}
+
+/* CLOSE */
+.csz-close{
+  position:absolute;top:14px;right:16px;background:none;border:none;
+  font-size:22px;cursor:pointer;color:#888;line-height:1;z-index:2;
+  font-family:inherit;
+}
+.csz-close:hover{color:#000;}
+
+/* HEADER */
+.csz-header{
+  background:#000;padding:18px 24px 16px;display:flex;
+  align-items:center;justify-content:space-between;
+}
+.csz-header-title{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:14px;font-weight:900;letter-spacing:.1em;
+  text-transform:uppercase;color:#fff;margin:0;
+}
+.csz-header-logo{height:32px;width:auto;filter:invert(1);}
+
+/* PROGRESS */
+.csz-progress{height:3px;background:#222;}
+.csz-progress-fill{height:3px;background:#e30613;transition:width .35s;}
+
+/* AUDIENCE TABS */
+.csz-tabs{display:flex;border-bottom:2px solid #000;}
+.csz-tab{
+  flex:1;padding:12px 6px;text-align:center;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;cursor:pointer;
+  color:#999;border-bottom:3px solid transparent;margin-bottom:-2px;
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:none;border-top:none;border-left:none;border-right:none;
+  transition:all .15s;
+}
+.csz-tab.csz-active{color:#000;border-bottom:3px solid #e30613;}
+.csz-tab:hover{color:#000;}
+
+/* STEPS */
+.csz-body{padding:28px 24px 20px;}
+.csz-step{display:none;animation:cszFadeUp .2s ease;}
+.csz-step.csz-active{display:block;}
+@keyframes cszFadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.csz-step-title{
+  font-size:18px;font-weight:900;text-transform:uppercase;
+  letter-spacing:.06em;color:#000;text-align:center;
+  margin:0 0 6px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.csz-step-sub{font-size:12px;color:#888;text-align:center;margin:0 0 24px;letter-spacing:.02em;}
+
+/* METHOD OPTIONS */
+.csz-methods{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+.csz-method{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;
+  border:1.5px solid #e0e0e0;cursor:pointer;transition:all .15s;background:#fafafa;
+}
+.csz-method:hover{border-color:#000;background:#fff;}
+.csz-method.csz-active{border:2px solid #000;background:#fff;}
+.csz-method-icon{
+  width:36px;height:36px;background:#f0f0f0;display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.csz-method.csz-active .csz-method-icon{background:#000;}
+.csz-method-icon svg{width:18px;height:18px;}
+.csz-method.csz-active .csz-method-icon svg{stroke:#fff;}
+.csz-method-name{font-size:13px;font-weight:700;color:#000;text-transform:uppercase;letter-spacing:.04em;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-method-desc{font-size:11px;color:#888;margin-top:2px;}
+
+/* INPUT */
+.csz-field{margin-bottom:20px;}
+.csz-field-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-field-row{display:flex;align-items:center;border-bottom:2px solid #000;padding-bottom:6px;}
+.csz-num-input{font-size:28px;font-weight:300;color:#000;border:none;outline:none;background:transparent;width:130px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;-moz-appearance:textfield;}
+.csz-num-input::-webkit-outer-spin-button,.csz-num-input::-webkit-inner-spin-button{-webkit-appearance:none;}
+.csz-unit{font-size:14px;color:#aaa;margin-left:8px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-unit-toggle{display:flex;gap:2px;font-size:11px;font-weight:700;letter-spacing:.06em;}
+.csz-utog{cursor:pointer;color:#bbb;padding:2px 5px;}
+.csz-utog.csz-active{color:#000;}
+.csz-usep{color:#ddd;}
+
+/* WIDTH */
+.csz-widths{display:flex;gap:8px;margin-bottom:18px;}
+.csz-width{flex:1;padding:10px 6px;border:1.5px solid #e0e0e0;text-align:center;cursor:pointer;transition:all .15s;}
+.csz-width:hover{border-color:#000;}
+.csz-width.csz-active{border:2px solid #000;background:#fff;}
+.csz-width-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#000;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-width-desc{font-size:11px;color:#aaa;margin-top:2px;}
+
+/* HINT */
+.csz-hint{background:#f5f5f5;padding:12px 14px;margin-bottom:18px;display:flex;gap:10px;align-items:flex-start;}
+.csz-hint-icon{font-size:15px;flex-shrink:0;}
+.csz-hint-text{font-size:12px;color:#666;line-height:1.6;}
+
+/* FOOT SVG */
+.csz-foot-wrap{display:flex;justify-content:center;margin-bottom:16px;}
+
+/* BUTTONS */
+.csz-btn{
+  width:100%;padding:14px;background:#000;color:#fff;border:none;
+  font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+  transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.csz-btn:hover{background:#222;}
+.csz-btn:disabled{background:#ccc;cursor:not-allowed;}
+.csz-btn.csz-success{background:#e30613;}
+.csz-btn-back{
+  background:none;border:none;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#888;cursor:pointer;display:block;
+  text-align:center;margin-top:12px;width:100%;
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.csz-btn-back:hover{color:#000;}
+
+/* RESULT */
+.csz-result-hero{text-align:center;padding:8px 0 22px;}
+.csz-result-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#888;margin-bottom:12px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-result-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:80px;height:80px;padding:0 20px;background:#000;color:#fff;
+  font-size:26px;font-weight:900;letter-spacing:.02em;margin-bottom:14px;
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.csz-result-title{font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#000;margin:0 0 6px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-result-sub{font-size:12px;color:#888;margin:0 0 20px;line-height:1.6;}
+
+/* CONVERSION TABLE */
+.csz-conv-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:8px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-conv-table{border:1px solid #e0e0e0;margin-bottom:20px;overflow-x:auto;}
+.csz-conv-head{display:grid;background:#000;padding:9px 12px;}
+.csz-conv-head span{font-size:10px;font-weight:700;letter-spacing:.08em;color:#fff;text-align:center;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-conv-row{display:grid;padding:9px 12px;border-bottom:1px solid #eee;}
+.csz-conv-row:last-child{border-bottom:none;}
+.csz-conv-row.csz-hl{background:#fff8f8;}
+.csz-conv-row span{font-size:12px;color:#555;text-align:center;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+.csz-conv-row.csz-hl span{color:#000;font-weight:700;}
+
+/* WIDTH ADVICE */
+.csz-advice{display:flex;align-items:center;gap:8px;background:#fff8f8;padding:11px 14px;margin-bottom:14px;border-left:3px solid #e30613;}
+.csz-advice-text{font-size:12px;color:#c0000a;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;}
+
+/* PANEL */
+.csz-panel{display:none;}
+.csz-panel.csz-active{display:block;}
+
+/* AUDIENCE SECTIONS */
+.csz-section{display:none;}
+.csz-section.csz-active{display:block;}
+
+/* NOTE */
+.csz-note{font-size:11px;color:#888;text-align:center;margin-top:6px;font-style:italic;}
+</style>
+
+<!-- ===== TRIGGER ===== -->
+<button class="csz-trigger" onclick="cszOpen()">&#128269; Encuentra tu talla</button>
+
+<!-- ===== OVERLAY ===== -->
+<div class="csz-overlay" id="csz-overlay" onclick="cszBgClose(event)">
+<div class="csz-modal" id="csz-modal">
+
+  <button class="csz-close" onclick="cszClose()">&#215;</button>
+
+  <!-- HEADER -->
+  <div class="csz-header">
+    <span class="csz-header-title">Encuentra tu talla</span>
+    <img class="csz-header-logo" src="{{media url='wysiwyg/Komax/logos_small/dc_shoes.png'}}" alt="DC Shoes" onerror="this.style.display='none'">
+  </div>
+  <div class="csz-progress"><div class="csz-progress-fill" id="csz-prog" style="width:50%"></div></div>
+
+  <!-- AUDIENCE TABS -->
+  <div class="csz-tabs">
+    <button class="csz-tab csz-active" onclick="cszAudience('hombre',this)">Hombre</button>
+    <button class="csz-tab" onclick="cszAudience('mujer',this)">Mujer</button>
+    <button class="csz-tab" onclick="cszAudience('ninos',this)">Niños</button>
+    <button class="csz-tab" onclick="cszAudience('toddler',this)">Toddler</button>
+  </div>
+
+  <div class="csz-body">
+
+    <!-- ====== HOMBRE ====== -->
+    <div class="csz-section csz-active" id="csz-sec-hombre">
+      <!-- step 1: método -->
+      <div class="csz-step csz-active" id="csz-hombre-s1">
+        <div class="csz-step-title">¿Cómo prefieres medir?</div>
+        <div class="csz-step-sub">Elige el método que te sea más fácil</div>
+        <div class="csz-methods">
+          <div class="csz-method" onclick="cszMethod('hombre','cm',this)">
+            <div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M8 7v5M13 7v5M18 7v5"/></svg></div>
+            <div><div class="csz-method-name">Medir mi pie en cm</div><div class="csz-method-desc">La forma más precisa. Solo necesitas una hoja y un lápiz.</div></div>
+          </div>
+          <div class="csz-method" onclick="cszMethod('hombre','us',this)">
+            <div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18M3 12h18"/></svg></div>
+            <div><div class="csz-method-name">Sé mi talla US</div><div class="csz-method-desc">Ingresa tu número americano y lo convertimos.</div></div>
+          </div>
+          <div class="csz-method" onclick="cszMethod('hombre','eur',this)">
+            <div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M18 6a7 7 0 1 0 0 12M4 9h11M4 15h11"/></svg></div>
+            <div><div class="csz-method-name">Sé mi talla EUR / Chile</div><div class="csz-method-desc">EUR corresponde a la talla usada en Chile.</div></div>
+          </div>
+          <div class="csz-method" onclick="cszMethod('hombre','uk',this)">
+            <div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18v12H3zM8 6v12M16 6v12"/></svg></div>
+            <div><div class="csz-method-name">Sé mi talla UK</div><div class="csz-method-desc">Ingresa tu número inglés y lo convertimos.</div></div>
+          </div>
+        </div>
+        <button class="csz-btn" id="csz-hombre-s1-btn" onclick="cszGoStep('hombre',2)" disabled>CONTINUAR ›</button>
+      </div>
+
+      <!-- step 2: input -->
+      <div class="csz-step" id="csz-hombre-s2">
+        <div class="csz-step-title" id="csz-hombre-s2-title">Largo de tu pie</div>
+        <div class="csz-step-sub" id="csz-hombre-s2-sub">Mide desde el talón hasta el dedo más largo</div>
+
+        <div class="csz-panel csz-active" id="csz-hombre-panel-cm">
+          <div class="csz-foot-wrap">
+            <svg viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg" width="220" height="120">
+              <path d="M 30 90 C 10 90, 10 50, 30 50 C 30 50, 40 30, 80 22 C 110 16, 150 18, 175 28 C 195 36, 200 50, 198 65 C 196 80, 185 92, 160 97 C 130 103, 70 103, 50 98 C 38 94, 30 90, 30 90 Z" fill="#e0e0e0"/>
+              <ellipse cx="196" cy="32" rx="13" ry="10" fill="#d0d0d0"/>
+              <ellipse cx="194" cy="17" rx="10" ry="8" fill="#d4d4d4"/>
+              <ellipse cx="182" cy="9" rx="9" ry="7" fill="#d4d4d4"/>
+              <ellipse cx="169" cy="10" rx="8" ry="6.5" fill="#d4d4d4"/>
+              <ellipse cx="157" cy="16" rx="7" ry="6" fill="#d4d4d4"/>
+              <line x1="20" y1="128" x2="210" y2="128" stroke="#e30613" stroke-width="2" stroke-dasharray="5 3"/>
+              <line x1="20" y1="122" x2="20" y2="134" stroke="#e30613" stroke-width="2"/>
+              <line x1="210" y1="122" x2="210" y2="134" stroke="#e30613" stroke-width="2"/>
+              <text x="115" y="122" text-anchor="middle" font-size="10" fill="#e30613" font-family="Roboto,sans-serif" font-weight="700">LARGO DEL PIE</text>
+            </svg>
+          </div>
+          <div class="csz-hint"><div class="csz-hint-icon">📋</div><div class="csz-hint-text">Pon tu pie sobre una hoja de papel, marca el talón y la punta del dedo más largo. Mide la distancia entre ambas marcas.</div></div>
+          <div class="csz-field">
+            <div class="csz-field-label">
+              Largo del pie
+              <div class="csz-unit-toggle"><span class="csz-utog csz-active" onclick="cszCmUnit('hombre','cm',this)">CM</span><span class="csz-usep">|</span><span class="csz-utog" onclick="cszCmUnit('hombre','mm',this)">MM</span></div>
+            </div>
+            <div class="csz-field-row">
+              <input class="csz-num-input" type="number" id="csz-hombre-cm" placeholder="27" min="20" max="34" step="0.1" oninput="cszValidateS2('hombre')">
+              <span class="csz-unit" id="csz-hombre-cm-unit">cm</span>
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <div class="csz-field-label" style="margin-bottom:8px;">Ancho del pie</div>
+            <div class="csz-widths">
+              <div class="csz-width" onclick="cszWidth('hombre','angosto',this)"><div class="csz-width-name">Angosto</div><div class="csz-width-desc">Pie estrecho</div></div>
+              <div class="csz-width csz-active" onclick="cszWidth('hombre','normal',this)"><div class="csz-width-name">Normal</div><div class="csz-width-desc">Promedio</div></div>
+              <div class="csz-width" onclick="cszWidth('hombre','ancho',this)"><div class="csz-width-name">Ancho</div><div class="csz-width-desc">Pie amplio</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="csz-panel" id="csz-hombre-panel-us">
+          <div class="csz-field"><div class="csz-field-label">Talla US</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-hombre-us" placeholder="9" min="3" max="19" step="0.5" oninput="cszValidateS2('hombre')"><span class="csz-unit">US</span></div></div>
+          <div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">Si tu talla cae entre dos números, te mostraremos ambas opciones.</div></div>
+        </div>
+        <div class="csz-panel" id="csz-hombre-panel-eur">
+          <div class="csz-field"><div class="csz-field-label">Talla EUR / Chile</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-hombre-eur" placeholder="42" min="35" max="55" step="0.5" oninput="cszValidateS2('hombre')"><span class="csz-unit">EUR</span></div></div>
+          <div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">EUR corresponde a la talla utilizada en Chile.</div></div>
+        </div>
+        <div class="csz-panel" id="csz-hombre-panel-uk">
+          <div class="csz-field"><div class="csz-field-label">Talla UK</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-hombre-uk" placeholder="8" min="2" max="17" step="0.5" oninput="cszValidateS2('hombre')"><span class="csz-unit">UK</span></div></div>
+          <div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">Puedes encontrar la talla UK en la suela o etiqueta de tu calzado.</div></div>
+        </div>
+
+        <button class="csz-btn" id="csz-hombre-s2-btn" onclick="cszCompute('hombre')" disabled>VER MI TALLA ›</button>
+        <button class="csz-btn-back" onclick="cszGoStep('hombre',1)">← Cambiar método</button>
+      </div>
+
+      <!-- step 3: resultado -->
+      <div class="csz-step" id="csz-hombre-s3">
+        <div class="csz-result-hero">
+          <div class="csz-result-eyebrow">Tu talla recomendada</div>
+          <div class="csz-result-badge" id="csz-hombre-badge">41</div>
+          <div class="csz-result-title" id="csz-hombre-rtitle">Talla EUR / Chile 41</div>
+          <div class="csz-result-sub" id="csz-hombre-rsub">Basado en tu medida de pie</div>
+        </div>
+        <div id="csz-hombre-advice" class="csz-advice" style="display:none"><span>⚠</span><span class="csz-advice-text" id="csz-hombre-advice-text"></span></div>
+        <div class="csz-conv-label">Tabla de conversión completa — Hombre</div>
+        <div class="csz-conv-table">
+          <div class="csz-conv-head" style="grid-template-columns:repeat(4,1fr)"><span>EUR/Chile</span><span>US</span><span>UK</span><span>CM</span></div>
+          <div id="csz-hombre-conv"></div>
+        </div>
+        <div class="csz-note">*EUR corresponde a la talla utilizada en Chile</div>
+        <div style="margin-top:18px;">
+          <button class="csz-btn" id="csz-hombre-apply-btn" onclick="cszApply('hombre')">SELECCIONAR ESTA TALLA ›</button>
+          <button class="csz-btn-back" onclick="cszGoStep('hombre',1)">Recalcular</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== MUJER ====== -->
+    <div class="csz-section" id="csz-sec-mujer">
+      <div class="csz-step csz-active" id="csz-mujer-s1">
+        <div class="csz-step-title">¿Cómo prefieres medir?</div>
+        <div class="csz-step-sub">Elige el método que te sea más fácil</div>
+        <div class="csz-methods">
+          <div class="csz-method" onclick="cszMethod('mujer','cm',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M8 7v5M13 7v5M18 7v5"/></svg></div><div><div class="csz-method-name">Medir mi pie en cm</div><div class="csz-method-desc">La forma más precisa.</div></div></div>
+          <div class="csz-method" onclick="cszMethod('mujer','us',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18M3 12h18"/></svg></div><div><div class="csz-method-name">Sé mi talla US</div><div class="csz-method-desc">Ingresa tu número americano.</div></div></div>
+          <div class="csz-method" onclick="cszMethod('mujer','eur',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M18 6a7 7 0 1 0 0 12M4 9h11M4 15h11"/></svg></div><div><div class="csz-method-name">Sé mi talla EUR / Chile</div><div class="csz-method-desc">EUR corresponde a la talla usada en Chile.</div></div></div>
+          <div class="csz-method" onclick="cszMethod('mujer','uk',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18v12H3zM8 6v12M16 6v12"/></svg></div><div><div class="csz-method-name">Sé mi talla UK</div><div class="csz-method-desc">Ingresa tu número inglés.</div></div></div>
+        </div>
+        <button class="csz-btn" id="csz-mujer-s1-btn" onclick="cszGoStep('mujer',2)" disabled>CONTINUAR ›</button>
+      </div>
+      <div class="csz-step" id="csz-mujer-s2">
+        <div class="csz-step-title" id="csz-mujer-s2-title">Largo de tu pie</div>
+        <div class="csz-step-sub" id="csz-mujer-s2-sub">Mide desde el talón hasta el dedo más largo</div>
+        <div class="csz-panel csz-active" id="csz-mujer-panel-cm">
+          <div class="csz-foot-wrap"><svg viewBox="0 0 260 140" fill="none" width="220" height="120"><path d="M 30 90 C 10 90, 10 50, 30 50 C 30 50, 40 30, 80 22 C 110 16, 150 18, 175 28 C 195 36, 200 50, 198 65 C 196 80, 185 92, 160 97 C 130 103, 70 103, 50 98 C 38 94, 30 90, 30 90 Z" fill="#e8d5e8"/><ellipse cx="196" cy="32" rx="13" ry="10" fill="#d8c0d8"/><ellipse cx="194" cy="17" rx="10" ry="8" fill="#dcc8dc"/><ellipse cx="182" cy="9" rx="9" ry="7" fill="#dcc8dc"/><ellipse cx="169" cy="10" rx="8" ry="6.5" fill="#dcc8dc"/><ellipse cx="157" cy="16" rx="7" ry="6" fill="#dcc8dc"/><line x1="20" y1="128" x2="210" y2="128" stroke="#e30613" stroke-width="2" stroke-dasharray="5 3"/><line x1="20" y1="122" x2="20" y2="134" stroke="#e30613" stroke-width="2"/><line x1="210" y1="122" x2="210" y2="134" stroke="#e30613" stroke-width="2"/><text x="115" y="122" text-anchor="middle" font-size="10" fill="#e30613" font-family="Roboto,sans-serif" font-weight="700">LARGO DEL PIE</text></svg></div>
+          <div class="csz-hint"><div class="csz-hint-icon">📋</div><div class="csz-hint-text">Pon tu pie sobre una hoja de papel, marca el talón y la punta del dedo más largo. Mide la distancia entre ambas marcas.</div></div>
+          <div class="csz-field"><div class="csz-field-label">Largo del pie <div class="csz-unit-toggle"><span class="csz-utog csz-active" onclick="cszCmUnit('mujer','cm',this)">CM</span><span class="csz-usep">|</span><span class="csz-utog" onclick="cszCmUnit('mujer','mm',this)">MM</span></div></div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-mujer-cm" placeholder="25" min="18" max="30" step="0.1" oninput="cszValidateS2('mujer')"><span class="csz-unit" id="csz-mujer-cm-unit">cm</span></div></div>
+          <div style="margin-bottom:16px;"><div class="csz-field-label" style="margin-bottom:8px;">Ancho del pie</div><div class="csz-widths"><div class="csz-width" onclick="cszWidth('mujer','angosto',this)"><div class="csz-width-name">Angosto</div><div class="csz-width-desc">Pie estrecho</div></div><div class="csz-width csz-active" onclick="cszWidth('mujer','normal',this)"><div class="csz-width-name">Normal</div><div class="csz-width-desc">Promedio</div></div><div class="csz-width" onclick="cszWidth('mujer','ancho',this)"><div class="csz-width-name">Ancho</div><div class="csz-width-desc">Pie amplio</div></div></div></div>
+        </div>
+        <div class="csz-panel" id="csz-mujer-panel-us"><div class="csz-field"><div class="csz-field-label">Talla US</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-mujer-us" placeholder="7" min="4" max="11" step="0.5" oninput="cszValidateS2('mujer')"><span class="csz-unit">US</span></div></div><div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">Si tu talla cae entre dos números te mostraremos ambas opciones.</div></div></div>
+        <div class="csz-panel" id="csz-mujer-panel-eur"><div class="csz-field"><div class="csz-field-label">Talla EUR / Chile</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-mujer-eur" placeholder="38" min="35" max="43" step="0.5" oninput="cszValidateS2('mujer')"><span class="csz-unit">EUR</span></div></div><div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">EUR corresponde a la talla utilizada en Chile.</div></div></div>
+        <div class="csz-panel" id="csz-mujer-panel-uk"><div class="csz-field"><div class="csz-field-label">Talla UK</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-mujer-uk" placeholder="5" min="2" max="9" step="0.5" oninput="cszValidateS2('mujer')"><span class="csz-unit">UK</span></div></div><div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">Puedes encontrar la talla UK en la suela o etiqueta de tu calzado.</div></div></div>
+        <button class="csz-btn" id="csz-mujer-s2-btn" onclick="cszCompute('mujer')" disabled>VER MI TALLA ›</button>
+        <button class="csz-btn-back" onclick="cszGoStep('mujer',1)">← Cambiar método</button>
+      </div>
+      <div class="csz-step" id="csz-mujer-s3">
+        <div class="csz-result-hero"><div class="csz-result-eyebrow">Tu talla recomendada</div><div class="csz-result-badge" id="csz-mujer-badge">38</div><div class="csz-result-title" id="csz-mujer-rtitle">Talla EUR / Chile 38</div><div class="csz-result-sub" id="csz-mujer-rsub">Basado en tu medida de pie</div></div>
+        <div id="csz-mujer-advice" class="csz-advice" style="display:none"><span>⚠</span><span class="csz-advice-text" id="csz-mujer-advice-text"></span></div>
+        <div class="csz-conv-label">Tabla de conversión — Mujer</div>
+        <div class="csz-conv-table"><div class="csz-conv-head" style="grid-template-columns:repeat(4,1fr)"><span>EUR/Chile</span><span>US</span><span>UK</span><span>CM</span></div><div id="csz-mujer-conv"></div></div>
+        <div class="csz-note">*EUR corresponde a la talla utilizada en Chile</div>
+        <div style="margin-top:18px;"><button class="csz-btn" id="csz-mujer-apply-btn" onclick="cszApply('mujer')">SELECCIONAR ESTA TALLA ›</button><button class="csz-btn-back" onclick="cszGoStep('mujer',1)">Recalcular</button></div>
+      </div>
+    </div>
+
+    <!-- ====== NIÑOS ====== -->
+    <div class="csz-section" id="csz-sec-ninos">
+      <div class="csz-step csz-active" id="csz-ninos-s1">
+        <div class="csz-step-title">¿Cómo prefieres medir?</div>
+        <div class="csz-step-sub">Elige el método que te sea más fácil</div>
+        <div class="csz-methods">
+          <div class="csz-method" onclick="cszMethod('ninos','cm',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M8 7v5M13 7v5M18 7v5"/></svg></div><div><div class="csz-method-name">Medir el pie en cm</div><div class="csz-method-desc">La forma más precisa.</div></div></div>
+          <div class="csz-method" onclick="cszMethod('ninos','us',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18M3 12h18"/></svg></div><div><div class="csz-method-name">Sé la talla US</div><div class="csz-method-desc">Ingresa el número americano.</div></div></div>
+          <div class="csz-method" onclick="cszMethod('ninos','eur',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M18 6a7 7 0 1 0 0 12M4 9h11M4 15h11"/></svg></div><div><div class="csz-method-name">Sé la talla EUR / Chile</div><div class="csz-method-desc">EUR corresponde a la talla usada en Chile.</div></div></div>
+        </div>
+        <button class="csz-btn" id="csz-ninos-s1-btn" onclick="cszGoStep('ninos',2)" disabled>CONTINUAR ›</button>
+      </div>
+      <div class="csz-step" id="csz-ninos-s2">
+        <div class="csz-step-title" id="csz-ninos-s2-title">Largo del pie</div>
+        <div class="csz-step-sub" id="csz-ninos-s2-sub">Mide desde el talón hasta el dedo más largo</div>
+        <div class="csz-panel csz-active" id="csz-ninos-panel-cm"><div class="csz-hint"><div class="csz-hint-icon">📋</div><div class="csz-hint-text">Pon el pie del niño sobre una hoja de papel, marca el talón y la punta del dedo más largo. Mide la distancia entre ambas marcas.</div></div><div class="csz-field"><div class="csz-field-label">Largo del pie (cm)</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-ninos-cm" placeholder="22" min="16" max="26" step="0.5" oninput="cszValidateS2('ninos')"><span class="csz-unit">cm</span></div></div></div>
+        <div class="csz-panel" id="csz-ninos-panel-us"><div class="csz-field"><div class="csz-field-label">Talla US Niños</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-ninos-us" placeholder="4" min="1" max="7" step="0.5" oninput="cszValidateS2('ninos')"><span class="csz-unit">US</span></div></div><div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">Usa la numeración de niños (Kids), no la de adulto.</div></div></div>
+        <div class="csz-panel" id="csz-ninos-panel-eur"><div class="csz-field"><div class="csz-field-label">Talla EUR / Chile</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-ninos-eur" placeholder="35" min="27" max="39" step="0.5" oninput="cszValidateS2('ninos')"><span class="csz-unit">EUR</span></div></div></div>
+        <button class="csz-btn" id="csz-ninos-s2-btn" onclick="cszCompute('ninos')" disabled>VER LA TALLA ›</button>
+        <button class="csz-btn-back" onclick="cszGoStep('ninos',1)">← Cambiar método</button>
+      </div>
+      <div class="csz-step" id="csz-ninos-s3">
+        <div class="csz-result-hero"><div class="csz-result-eyebrow">Talla recomendada</div><div class="csz-result-badge" id="csz-ninos-badge">35</div><div class="csz-result-title" id="csz-ninos-rtitle">Talla EUR / Chile 35</div><div class="csz-result-sub" id="csz-ninos-rsub">Basado en la medida de pie</div></div>
+        <div class="csz-conv-label">Tabla de conversión — Niños</div>
+        <div class="csz-conv-table"><div class="csz-conv-head" style="grid-template-columns:repeat(4,1fr)"><span>EUR/Chile</span><span>US</span><span>UK</span><span>CM</span></div><div id="csz-ninos-conv"></div></div>
+        <div class="csz-note">*EUR corresponde a la talla utilizada en Chile</div>
+        <div style="margin-top:18px;"><button class="csz-btn" id="csz-ninos-apply-btn" onclick="cszApply('ninos')">SELECCIONAR ESTA TALLA ›</button><button class="csz-btn-back" onclick="cszGoStep('ninos',1)">Recalcular</button></div>
+      </div>
+    </div>
+
+    <!-- ====== TODDLER ====== -->
+    <div class="csz-section" id="csz-sec-toddler">
+      <div class="csz-step csz-active" id="csz-toddler-s1">
+        <div class="csz-step-title">Talla Toddler</div>
+        <div class="csz-step-sub">Ingresa la edad aproximada o el largo del pie</div>
+        <div class="csz-methods">
+          <div class="csz-method" onclick="cszMethod('toddler','edad',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div><div><div class="csz-method-name">Edad del niño</div><div class="csz-method-desc">Ingresa la edad en meses o años.</div></div></div>
+          <div class="csz-method" onclick="cszMethod('toddler','cm',this)"><div class="csz-method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M8 7v5M13 7v5M18 7v5"/></svg></div><div><div class="csz-method-name">Medir el pie en cm</div><div class="csz-method-desc">La forma más precisa.</div></div></div>
+        </div>
+        <button class="csz-btn" id="csz-toddler-s1-btn" onclick="cszGoStep('toddler',2)" disabled>CONTINUAR ›</button>
+      </div>
+      <div class="csz-step" id="csz-toddler-s2">
+        <div class="csz-step-title" id="csz-toddler-s2-title">Edad del niño</div>
+        <div class="csz-step-sub" id="csz-toddler-s2-sub"></div>
+        <div class="csz-panel csz-active" id="csz-toddler-panel-edad">
+          <div class="csz-field"><div class="csz-field-label">Edad</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-toddler-edad" placeholder="18" min="12" max="60" step="1" oninput="cszValidateS2('toddler')"><span class="csz-unit">meses</span></div></div>
+          <div class="csz-hint"><div class="csz-hint-icon">💡</div><div class="csz-hint-text">Ingresa la edad en meses (ej: 18 meses, 24 meses, 36 meses). Para niños de 2 años ingresa 24, para 3 años ingresa 36.</div></div>
+        </div>
+        <div class="csz-panel" id="csz-toddler-panel-cm"><div class="csz-field"><div class="csz-field-label">Largo del pie (cm)</div><div class="csz-field-row"><input class="csz-num-input" type="number" id="csz-toddler-cm" placeholder="13" min="10" max="17" step="0.1" oninput="cszValidateS2('toddler')"><span class="csz-unit">cm</span></div></div><div class="csz-hint"><div class="csz-hint-icon">📋</div><div class="csz-hint-text">Mide el pie del bebé desde el talón hasta la punta del dedo más largo.</div></div></div>
+        <button class="csz-btn" id="csz-toddler-s2-btn" onclick="cszCompute('toddler')" disabled>VER LA TALLA ›</button>
+        <button class="csz-btn-back" onclick="cszGoStep('toddler',1)">← Cambiar método</button>
+      </div>
+      <div class="csz-step" id="csz-toddler-s3">
+        <div class="csz-result-hero"><div class="csz-result-eyebrow">Talla recomendada</div><div class="csz-result-badge" id="csz-toddler-badge">23.5</div><div class="csz-result-title" id="csz-toddler-rtitle">Talla EUR 23.5</div><div class="csz-result-sub" id="csz-toddler-rsub"></div></div>
+        <div class="csz-conv-label">Tabla Toddler completa</div>
+        <div class="csz-conv-table"><div class="csz-conv-head" style="grid-template-columns:repeat(5,1fr)"><span>Edad</span><span>US</span><span>UK</span><span>EUR</span><span>CM</span></div><div id="csz-toddler-conv"></div></div>
+        <div class="csz-note">*EUR corresponde a la talla utilizada en Chile</div>
+        <div style="margin-top:18px;"><button class="csz-btn" id="csz-toddler-apply-btn" onclick="cszApply('toddler')">SELECCIONAR ESTA TALLA ›</button><button class="csz-btn-back" onclick="cszGoStep('toddler',1)">Recalcular</button></div>
+      </div>
+    </div>
+
+  </div><!-- /csz-body -->
+</div><!-- /csz-modal -->
+</div><!-- /csz-overlay -->
+
+<script>
+(function(){
+/* ========== DATOS ========== */
+var TABLES = {
+  hombre:[
+    {eur:'35',us:3,uk:2,cm:21.5},{eur:'36',us:4,uk:3,cm:22},{eur:'36.5',us:4.5,uk:3.5,cm:22.5},
+    {eur:'37',us:5,uk:4,cm:23},{eur:'37.5',us:5.5,uk:4.5,cm:23.5},{eur:'38',us:6,uk:5,cm:24},
+    {eur:'38.5',us:6.5,uk:5.5,cm:24.5},{eur:'39',us:7,uk:6,cm:25},{eur:'40',us:7.5,uk:6.5,cm:25.5},
+    {eur:'40.5',us:8,uk:7,cm:26},{eur:'41',us:8.5,uk:7.5,cm:26.5},{eur:'42',us:9,uk:8,cm:27},
+    {eur:'42.5',us:9.5,uk:8.5,cm:27.5},{eur:'43',us:10,uk:9,cm:28},{eur:'44',us:10.5,uk:9.5,cm:28.5},
+    {eur:'44.5',us:11,uk:10,cm:29},{eur:'45',us:11.5,uk:10.5,cm:29.5},{eur:'46',us:12,uk:11,cm:30},
+    {eur:'47',us:13,uk:12,cm:31},{eur:'48.5',us:14,uk:13,cm:32},{eur:'50',us:15,uk:14,cm:33},
+    {eur:'52',us:16,uk:15,cm:34},{eur:'53.5',us:17,uk:16,cm:35},{eur:'55',us:19,uk:17,cm:36}
+  ],
+  mujer:[
+    {eur:'35',us:4,uk:2,cm:21.5},{eur:'36',us:5,uk:3,cm:22},{eur:'36.5',us:5.5,uk:3.5,cm:22.5},
+    {eur:'37',us:6,uk:4,cm:23},{eur:'37.5',us:6.5,uk:4.5,cm:23.5},{eur:'38',us:7,uk:5,cm:24},
+    {eur:'38.5',us:7.5,uk:5.5,cm:24.5},{eur:'39',us:8,uk:6,cm:25},{eur:'40',us:8.5,uk:6.5,cm:25.5},
+    {eur:'40.5',us:9,uk:7,cm:26},{eur:'41',us:9.5,uk:7.5,cm:26.5},{eur:'42',us:10,uk:8,cm:27},
+    {eur:'42.5',us:10.5,uk:8.5,cm:27.5},{eur:'43',us:11,uk:9,cm:28}
+  ],
+  ninos:[
+    {eur:'27',us:10,uk:9,cm:16},{eur:'27.5',us:10.5,uk:9.5,cm:16.5},{eur:'28',us:11,uk:10,cm:17},
+    {eur:'28.5',us:11.5,uk:10.5,cm:17.5},{eur:'29',us:12,uk:11,cm:18},{eur:'30',us:12.5,uk:11.5,cm:18.5},
+    {eur:'30.5',us:13,uk:12,cm:19},{eur:'31',us:13.5,uk:12.5,cm:19.5},{eur:'32',us:1,uk:12.5,cm:20},
+    {eur:'32.5',us:1.5,uk:13.5,cm:20.5},{eur:'33',us:2,uk:1,cm:21},{eur:'33.5',us:2.5,uk:1.5,cm:21.5},
+    {eur:'34',us:3,uk:2,cm:22},{eur:'34.5',us:3.5,uk:2.5,cm:22.5},{eur:'35',us:4,uk:3,cm:23},
+    {eur:'35.5',us:4.5,uk:3.5,cm:23.5},{eur:'36',us:5,uk:4,cm:24},{eur:'36.5',us:5.5,uk:4.5,cm:24.5},
+    {eur:'37',us:6,uk:5,cm:25},{eur:'38',us:6.5,uk:5.5,cm:25.3},{eur:'39',us:7,uk:6,cm:25.5}
+  ],
+  toddler:[
+    {edad:'12-18 meses',meses_min:12,meses_max:18,us:5,uk:4.5,eur:'21',cm:12.1},
+    {edad:'18-24 meses',meses_min:18,meses_max:24,us:6,uk:5.5,eur:'22.5',cm:13},
+    {edad:'2 años',meses_min:24,meses_max:30,us:7,uk:6.5,eur:'23.5',cm:14},
+    {edad:'2+ años',meses_min:30,meses_max:36,us:8,uk:7.5,eur:'25',cm:14.6},
+    {edad:'3+ años',meses_min:36,meses_max:48,us:9,uk:8.5,eur:'26',cm:15.6},
+    {edad:'4+ años',meses_min:48,meses_max:72,us:10,uk:9.5,eur:'27.5',cm:16.5}
+  ]
+};
+
+/* ========== STATE ========== */
+var state = {
+  audience:'hombre',
+  hombre:{step:1,method:null,width:'normal',cmUnit:'cm',recommended:null},
+  mujer:{step:1,method:null,width:'normal',cmUnit:'cm',recommended:null},
+  ninos:{step:1,method:null,recommended:null},
+  toddler:{step:1,method:null,recommended:null}
+};
+
+/* ========== OPEN/CLOSE ========== */
+window.cszOpen = function(){
+  document.getElementById('csz-overlay').classList.add('csz-open');
+  document.body.style.overflow='hidden';
+};
+window.cszClose = function(){
+  document.getElementById('csz-overlay').classList.remove('csz-open');
+  document.body.style.overflow='';
+};
+window.cszBgClose = function(e){
+  if(e.target===document.getElementById('csz-overlay')) cszClose();
+};
+
+/* ========== AUDIENCE ========== */
+window.cszAudience = function(aud,el){
+  state.audience=aud;
+  document.querySelectorAll('.csz-tab').forEach(function(t){t.classList.remove('csz-active');});
+  el.classList.add('csz-active');
+  document.querySelectorAll('.csz-section').forEach(function(s){s.classList.remove('csz-active');});
+  document.getElementById('csz-sec-'+aud).classList.add('csz-active');
+  cszUpdateProgress(aud);
+};
+
+/* ========== PROGRESS ========== */
+function cszUpdateProgress(aud){
+  var s = state[aud] ? state[aud].step : 1;
+  var pct = {1:33,2:66,3:100}[s] || 33;
+  document.getElementById('csz-prog').style.width = pct+'%';
+}
+
+/* ========== METHOD ========== */
+window.cszMethod = function(aud,method,el){
+  state[aud].method = method;
+  var container = el.parentNode;
+  container.querySelectorAll('.csz-method').forEach(function(m){m.classList.remove('csz-active');m.querySelector('.csz-method-icon').style.background='#f0f0f0';});
+  el.classList.add('csz-active');
+  el.querySelector('.csz-method-icon').style.background='#000';
+  document.getElementById('csz-'+aud+'-s1-btn').disabled=false;
+};
+
+/* ========== GO STEP ========== */
+window.cszGoStep = function(aud,step){
+  var prev = state[aud].step;
+  document.getElementById('csz-'+aud+'-s'+prev).classList.remove('csz-active');
+  state[aud].step = step;
+  document.getElementById('csz-'+aud+'-s'+step).classList.add('csz-active');
+  cszUpdateProgress(aud);
+
+  if(step===2 && state[aud].method){
+    var m = state[aud].method;
+    var lmap = {cm:'Largo de tu pie',us:'Tu talla US',eur:'Tu talla EUR / Chile',uk:'Tu talla UK',edad:'Edad del niño'};
+    var smap = {cm:'Mide desde el talón hasta el dedo más largo',us:'Ingresa tu número americano',eur:'EUR corresponde a talla en Chile',uk:'Ingresa tu número inglés',edad:'Ingresa la edad en meses'};
+    var tEl=document.getElementById('csz-'+aud+'-s2-title');
+    var sEl=document.getElementById('csz-'+aud+'-s2-sub');
+    if(tEl) tEl.textContent=lmap[m]||'Ingresa tu medida';
+    if(sEl) sEl.textContent=smap[m]||'';
+    document.querySelectorAll('#csz-'+aud+'-s2 .csz-panel').forEach(function(p){p.classList.remove('csz-active');});
+    var panelEl=document.getElementById('csz-'+aud+'-panel-'+m);
+    if(panelEl) panelEl.classList.add('csz-active');
+    document.getElementById('csz-'+aud+'-s2-btn').disabled=true;
+  }
+};
+
+/* ========== VALIDATE ========== */
+window.cszValidateS2 = function(aud){
+  var m=state[aud].method;
+  var ids={cm:'csz-'+aud+'-cm',us:'csz-'+aud+'-us',eur:'csz-'+aud+'-eur',uk:'csz-'+aud+'-uk',edad:'csz-'+aud+'-edad'};
+  var id=ids[m];
+  var val=id?parseFloat(document.getElementById(id).value):0;
+  document.getElementById('csz-'+aud+'-s2-btn').disabled=!val||val<=0;
+};
+
+/* ========== UNITS ========== */
+window.cszCmUnit = function(aud,unit,el){
+  state[aud].cmUnit=unit;
+  document.querySelectorAll('#csz-'+aud+'-panel-cm .csz-utog').forEach(function(o){o.classList.remove('csz-active');});
+  el.classList.add('csz-active');
+  document.getElementById('csz-'+aud+'-cm-unit').textContent=unit;
+  var inp=document.getElementById('csz-'+aud+'-cm');
+  if(unit==='mm'){inp.placeholder='270';inp.step='1';inp.min='200';inp.max='340';}
+  else{inp.placeholder=aud==='mujer'?'25':'27';inp.step='0.1';inp.min='16';inp.max='36';}
+};
+
+window.cszWidth = function(aud,w,el){
+  state[aud].width=w;
+  document.querySelectorAll('#csz-'+aud+'-panel-cm .csz-width').forEach(function(o){o.classList.remove('csz-active');});
+  el.classList.add('csz-active');
+};
+
+/* ========== FIND ========== */
+function cszFindByField(table,field,val){
+  var best=null,bd=999,lo=null,hi=null;
+  table.forEach(function(r){
+    var rv=parseFloat(r[field]);
+    var d=Math.abs(rv-val);
+    if(d<bd){bd=d;best=r;}
+    if(rv<=val) lo=r;
+    if(!hi&&rv>=val) hi=r;
+  });
+  if(lo&&hi&&lo!==hi&&bd>0.1) return [lo,hi];
+  return [best];
+}
+
+/* ========== COMPUTE ========== */
+window.cszCompute = function(aud){
+  var m=state[aud].method;
+  var table=TABLES[aud];
+  var matches;
+
+  if(aud==='toddler'){
+    if(m==='edad'){
+      var meses=parseFloat(document.getElementById('csz-toddler-edad').value);
+      matches=table.filter(function(r){return meses>=r.meses_min&&meses<=r.meses_max;});
+      if(!matches.length) matches=[table[table.length-1]];
+    } else {
+      var cv=parseFloat(document.getElementById('csz-toddler-cm').value);
+      matches=cszFindByField(table,'cm',cv);
+    }
+    var rec=matches[0];
+    state.toddler.recommended=rec.eur;
+    document.getElementById('csz-toddler-badge').textContent=rec.eur;
+    document.getElementById('csz-toddler-rtitle').textContent='Talla EUR / Chile '+rec.eur;
+    document.getElementById('csz-toddler-rsub').textContent=rec.edad+' — US '+rec.us+' / UK '+rec.uk;
+    // Build toddler conv table
+    var hlEur=matches.map(function(r){return r.eur;});
+    document.getElementById('csz-toddler-conv').innerHTML=table.map(function(r){
+      var hl=hlEur.indexOf(r.eur)>-1;
+      return '<div class="csz-conv-row'+(hl?' csz-hl':'')+'" style="grid-template-columns:repeat(5,1fr)"><span>'+r.edad+'</span><span>'+r.us+'</span><span>'+r.uk+'</span><span>'+r.eur+'</span><span>'+r.cm+'</span></div>';
+    }).join('');
+    cszGoStep('toddler',3);
+    return;
+  }
+
+  // Hombre / Mujer / Niños
+  var val, fieldKey;
+  if(m==='cm'){
+    val=parseFloat(document.getElementById('csz-'+aud+'-cm').value);
+    if(state[aud].cmUnit==='mm') val=val/10;
+    val=val+0.5; fieldKey='cm';
+  } else {
+    val=parseFloat(document.getElementById('csz-'+aud+'-'+m).value);
+    fieldKey=m;
+  }
+
+  matches=cszFindByField(table,fieldKey,val);
+  if(!matches||!matches[0]){alert('No encontramos talla para esa medida. Verifica el valor ingresado.');return;}
+
+  var isBetween=matches.length>1;
+  var rec=isBetween?matches[1]:matches[0];
+  state[aud].recommended=rec.eur;
+
+  document.getElementById('csz-'+aud+'-badge').textContent=rec.eur;
+  if(isBetween){
+    document.getElementById('csz-'+aud+'-rtitle').textContent='Entre EUR '+matches[0].eur+' y '+matches[1].eur;
+    document.getElementById('csz-'+aud+'-rsub').textContent='Tu medida cae entre dos tallas. Recomendamos la '+matches[1].eur+' para mayor comodidad.';
+  } else {
+    document.getElementById('csz-'+aud+'-rtitle').textContent='Talla EUR / Chile '+rec.eur;
+    document.getElementById('csz-'+aud+'-rsub').textContent='Tus medidas coinciden con esta talla.';
+  }
+
+  // Width advice
+  var advDiv=document.getElementById('csz-'+aud+'-advice');
+  var advTxt=document.getElementById('csz-'+aud+'-advice-text');
+  if(m==='cm'&&state[aud].width&&state[aud].width!=='normal'){
+    if(advDiv){advDiv.style.display='flex';}
+    if(state[aud].width==='ancho'){
+      if(advTxt) advTxt.textContent='Tienes pie ancho: considera subir media talla para mayor comodidad.';
+      // bump up one size
+      var idx=table.indexOf(rec);
+      if(idx<table.length-1){rec=table[idx+1];state[aud].recommended=rec.eur;}
+    } else {
+      if(advTxt) advTxt.textContent='Tienes pie angosto: la talla recomendada debería ajustar bien.';
+    }
+  } else {
+    if(advDiv) advDiv.style.display='none';
+  }
+
+  // Conv table
+  var hlEurs=matches.map(function(r){return r.eur;});
+  var cols=aud==='ninos'?'repeat(4,1fr)':'repeat(4,1fr)';
+  document.getElementById('csz-'+aud+'-conv').innerHTML=table.map(function(r){
+    var hl=hlEurs.indexOf(r.eur)>-1;
+    return '<div class="csz-conv-row'+(hl?' csz-hl':'')+'" style="grid-template-columns:'+cols+'"><span>'+r.eur+'</span><span>'+r.us+'</span><span>'+r.uk+'</span><span>'+r.cm+'</span></div>';
+  }).join('');
+
+  cszGoStep(aud,3);
+};
+
+/* ========== APPLY ========== */
+window.cszApply = function(aud){
+  var rec=state[aud].recommended;
+  var btn=document.getElementById('csz-'+aud+'-apply-btn');
+  btn.textContent='✓ TALLA '+rec+' SELECCIONADA';
+  btn.classList.add('csz-success');
+  btn.disabled=true;
+  // Intento seleccionar swatch en PDP de Magento
+  try{
+    var swatches=document.querySelectorAll('.swatch-option[aria-label="'+rec+'"], .swatch-option[option-label="'+rec+'"]');
+    if(swatches.length) swatches[0].click();
+  }catch(e){}
+  setTimeout(cszClose,1200);
+};
+
+})();
+</script>
+<!-- FIN DC SHOES Size Finder -->
